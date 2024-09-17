@@ -48,15 +48,16 @@ class addOrRemoveKeyClass:
         global canvas2
         if addOrRemoveCanvas == 'addCanvas':
             keys = keys + 1
+            if keys == 2:
+
+                canvas2 = tk.Canvas(win)
+                canvas2.grid(column=2, row=0)
+                canvas2.config(width=50, height=50)
         elif addOrRemoveCanvas == 'removeCanvas':
             keys = keys - 1
         print(keys)
-        if keys == 2:
-
-            canvas2 = tk.Canvas(win)
-            canvas2.grid(column=2, row=0)
-            canvas2.config(width=50, height=50)
-        elif keys == 1:
+        
+        if keys == 1:
             try:
                 canvas2.destroy()
                 del canvas2
