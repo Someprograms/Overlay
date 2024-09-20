@@ -16,6 +16,9 @@ global text_id4
 
 
 def on_key_press(key):
+    if key == Keyboard.Key.esc:
+        win.destroy()
+        quit()
     if selectedKeys:
         try:
             if key.char == selectedKeys[0]:
@@ -34,6 +37,7 @@ def on_key_press(key):
                 global text_id4
                 if not globals().get('text_id4'):
                     text_id4 = canvas4.create_text(25, 25, text=selectedKeys[3].upper(), font='Rosemary 15')
+
         except:
             print('')
 
