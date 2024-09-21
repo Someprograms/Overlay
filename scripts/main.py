@@ -1,4 +1,4 @@
-import tkinter as tk
+import customtkinter as tk
 import threading
 from pynput import keyboard as Keyboard
 import keyboard as kb
@@ -42,60 +42,61 @@ def on_key_press(key):
             print('')
 
 class addOrRemoveKeyClass:
-
-
-    def addOrRemoveKey(self, addOrRemoveCanvas):
+    def add_or_remove_key(self, addOrRemoveCanvas):
         global keys
         global canvas2
         global canvas
         global canvas3
         global canvas4
         if addOrRemoveCanvas == 'addCanvas':
-            keys = keys + 1
-            if keys == 1:
-                canvas = tk.Canvas(win)
-                canvas.grid(column=1, row=0)
-                canvas.config(width=50, height=50)
-            elif keys == 2:
+            if keys < 4:
+                keys = keys + 1
+                print(keys)
+                if keys == 1:
+                    canvas = tk.CTkCanvas(master=win)
+                    canvas.grid(column=1, row=0)
+                    canvas.config(width=50, height=50)
+                elif keys == 2:
 
-                canvas2 = tk.Canvas(win)
-                canvas2.grid(column=2, row=0)
-                canvas2.config(width=50, height=50)
-            elif keys == 3:
-                canvas3 = tk.Canvas(win)
-                canvas3.grid(column=3, row=0)
-                canvas3.config(width=50, height=50)
-            elif keys == 4:
+                    canvas2 = tk.CTkCanvas(win)
+                    canvas2.grid(column=2, row=0)
+                    canvas2.config(width=50, height=50)
+                elif keys == 3:
+                    canvas3 = tk.CTkCanvas(win)
+                    canvas3.grid(column=3, row=0)
+                    canvas3.config(width=50, height=50)
+                elif keys == 4:
 
-                canvas4 = tk.Canvas(win)
-                canvas4.grid(column=4, row=0)
-                canvas4.config(width=50, height=50)
+                    canvas4 = tk.CTkCanvas(win)
+                    canvas4.grid(column=4, row=0)
+                    canvas4.config(width=50, height=50)
         elif addOrRemoveCanvas == 'removeCanvas':
-            keys = keys - 1
-            if keys == 0:
-                try:
-                    canvas.destroy()
-                    print('canvas has been destroyed')
-                except:
-                    print('canvas is undefined')
-            if keys == 1:
-                try:
-                    canvas2.destroy()
-                    print('canvas2 has been destroyed')
-                except:
-                    print('canvas2 is undefined')
-            if keys == 2:
-                try:
-                    canvas3.destroy()
-                    print('canvas3 has been destroyed')
-                except:
-                    print('canvas3 is undefined')
-            if keys == 3:
-                try:
-                    canvas4.destroy()
-                    print('canvas4 has been destroyed')
-                except:
-                    print('canvas4 is undefined')
+            if keys > 0:
+                keys = keys - 1
+                if keys == 0:
+                    try:
+                        canvas.destroy()
+                        print('canvas has been destroyed')
+                    except:
+                        print('canvas is undefined')
+                if keys == 1:
+                    try:
+                        canvas2.destroy()
+                        print('canvas2 has been destroyed')
+                    except:
+                        print('canvas2 is undefined')
+                if keys == 2:
+                    try:
+                        canvas3.destroy()
+                        print('canvas3 has been destroyed')
+                    except:
+                        print('canvas3 is undefined')
+                if keys == 3:
+                    try:
+                        canvas4.destroy()
+                        print('canvas4 has been destroyed')
+                    except:
+                        print('canvas4 is undefined')
 
 
 
@@ -133,67 +134,67 @@ def window():
     #listener2 = Keyboard.Listener(on_press=on_key_press2)
     #listener2.start()
     global win
-    win = tk.Tk()
+    win = tk.CTk()
 
+    win.geometry('+0+0')
     win.overrideredirect(True)
     win.wm_attributes("-topmost", 1)
+    win.configure(background='red')
     global deleteCanvasText
     def deleteCanvasText(variable, textID):
         variable.delete(textID)
     def options():
+        tk.FontManager.load_font("Futura.ttf")
         global options1
-        options1 = tk.Toplevel(win)
+        options1 = tk.CTkToplevel(win)
+        options1.configure(fg_color='#feffed')
+        options1.title('Settings')
         #tk.Button(options1, text="Set keys", command=append).grid(row=0, column=2, sticky='nsew')
-        tk.Button(options1, text="Add a key", command=lambda x='addCanvas', y='': addOrRemoveKeyClass.addOrRemoveKey(addOrRemoveCanvas=x,self=y)).grid(row=1, column=2, sticky='nsew')
-        tk.Button(options1, text="Remove a key", command=lambda x='removeCanvas', y='': addOrRemoveKeyClass.addOrRemoveKey(addOrRemoveCanvas=x, self=y)).grid(row=2, column=2, sticky='nsew')
-        text = tk.Text(options1)
-        text.insert(index=0.0, chars='key 1')
-        text.grid(column=0, row=0)
-        text.config(width=10, height=1)
-        text2 = tk.Text(options1)
-        text2.insert(index=0.0, chars='key 2')
-        text2.grid(column=0, row=1)
-        text2.config(width=10, height=1)
-        text3 = tk.Text(options1)
-        text3.insert(index=0.0, chars='key 3')
-        text3.grid(column=0, row=2)
-        text3.config(width=10, height=1)
-        text4 = tk.Text(options1)
-        text4.insert(index=0.0, chars='key 4')
-        text4.grid(column=0, row=3)
-        text4.config(width=10, height=1)
+        tk.CTkButton(options1, text="Add a key", command=lambda x='addCanvas', y='': addOrRemoveKeyClass.add_or_remove_key(addOrRemoveCanvas=x,self=y)).grid(row=0, column=2, sticky='nsew', pady=(10,10))
+        tk.CTkButton(options1, text="Remove a key", command=lambda x='removeCanvas', y='': addOrRemoveKeyClass.add_or_remove_key(addOrRemoveCanvas=x, self=y)).grid(row=1, column=2, sticky='nsew', pady=(10,10))
+        text = tk.CTkLabel(master=options1, width=20, height=20, text='KEY 1', font=('Futura', 14))
+        text.grid(column=0, row=0, pady=(5, 5))
+        text.configure(width=5, height=1)
+        text2 = tk.CTkLabel(master=options1, width=20, height=20, text='KEY 2', font=('Futura', 14))
+        text2.grid(column=0, row=1, pady=(5, 5))
+        text2.configure(width=5, height=1)
+        text3 = tk.CTkLabel(master=options1, width=20, height=20, text='KEY 3', font=('Futura', 14))
+        text3.grid(column=0, row=2,pady=(5, 5))
+        text3.configure(width=5, height=1)
+        text4 = tk.CTkLabel(master=options1, width=20, height=20, text='KEY 4', font=('Futura', 14))
+        text4.grid(column=0, row=3, pady=(5, 5))
+        text4.configure(width=5, height=1)
         global menuOptions
         menuOptions = ['a', 'b', 'c', 'd']
         global selectedOption
         selectedOption = tk.StringVar()
         global menu
-        menu = tk.OptionMenu(options1, selectedOption, *menuOptions, command=lambda x=selectedOption, y='menu': [selectedKeys.append(x), do_something(x, y)])
-
-        menu.grid(column=1, row=0)
+        menu = tk.CTkOptionMenu(master=options1,  variable=selectedOption, values=menuOptions, command=lambda x=selectedOption, y='menu': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
+        menu.grid(column=1, row=0, pady=10, padx=(5, 5))
         global selectedOption2
         selectedOption2 = tk.StringVar()
         global menu2
-        menu2 = tk.OptionMenu(options1, selectedOption2, *menuOptions,
-                            command=lambda x=selectedOption2, y='menu2': [selectedKeys.append(x), do_something(x, y)])
-        menu2.grid(column=1, row=1)
+        menu2 = tk.CTkOptionMenu(master=options1,variable=selectedOption2, values=menuOptions,
+                            command=lambda x=selectedOption2, y='menu2': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
+        menu2.grid(column=1, row=1, pady=10, padx=(5, 5))
         global selectedOption3
         selectedOption3 = tk.StringVar()
         global menu3
-        menu3 = tk.OptionMenu(options1, selectedOption3, *menuOptions,
-                              command=lambda x=selectedOption3, y='menu3': [selectedKeys.append(x), do_something(x, y)])
+        menu3 = tk.CTkOptionMenu(master=options1, variable=selectedOption3, values=menuOptions,
+                              command=lambda x=selectedOption3, y='menu3': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
 
-        menu3.grid(column=1, row=2)
+        menu3.grid(column=1, row=2, pady=10, padx=(5, 5))
         global selectedOption4
         selectedOption4 = tk.StringVar()
         global menu4
-        menu4 = tk.OptionMenu(options1, selectedOption4, *menuOptions,
-                              command=lambda x=selectedOption4, y='menu4': [selectedKeys.append(x), do_something(x, y)])
+        menu4 = tk.CTkOptionMenu(master=options1, variable=selectedOption4, values=menuOptions,
+                              command=lambda x=selectedOption4, y='menu4': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
 
-        menu4.grid(column=1, row=3)
+        menu4.grid(column=1, row=3, pady=10, padx=(5, 5))
 
 
-    tk.Button(win, text="Settings", command=options).grid(row=0, column=0, sticky='nsew')
-    tk.mainloop()
+    tk.CTkButton(win, corner_radius=0, bg_color='black', width=20, height=20, text="Settings", command=options).grid(row=0, column=0, sticky='nsew')
+    win.mainloop()
 
 
 def do_something(var, var2):
@@ -205,38 +206,25 @@ def do_something(var, var2):
     global menu4
     global selectedOption
     if var2 == 'menu':
-        options = menu['menu']
-        options.delete(0, 'end')
-        menuOptions.remove(var)
-        for string in menuOptions:
-            options.add_command(label=string, command = tk._setit(selectedOption, string, lambda x=selectedOption, y='menu': [selectedKeys.insert(0, x), do_something(x, y)]))
         menuOptions = ['a', 'b', 'c', 'd']
+        options = menuOptions
+        options.remove(var)
+        menu.configure(values=options)
     elif var2 == 'menu2':
-
-        options = menu2['menu']
-        stringVar = selectedOption2
-        options.delete(0, 'end')
-        menuOptions.remove(var)
-        for string in menuOptions:
-            options.add_command(label=string, command = tk._setit(selectedOption2, string, lambda x=selectedOption, y='menu2': [selectedKeys.insert(1, x), do_something(x, y)]))
         menuOptions = ['a', 'b', 'c', 'd']
+        options = menuOptions
+        options.remove(var)
+        menu2.configure(values=options)
     elif var2 == 'menu3':
-
-        options = menu3['menu']
-        stringVar = selectedOption3
-        options.delete(0, 'end')
-        menuOptions.remove(var)
-        for string in menuOptions:
-            options.add_command(label=string, command = tk._setit(selectedOption3, string, lambda x=selectedOption, y='menu3': [selectedKeys.insert(2, x), do_something(x, y)]))
         menuOptions = ['a', 'b', 'c', 'd']
+        options = menuOptions
+        options.remove(var)
+        menu3.configure(values=options)
     elif var2 == 'menu4':
-        options = menu4['menu']
-        stringVar = selectedOption4
-        options.delete(0, 'end')
-        menuOptions.remove(var)
-        for string in menuOptions:
-            options.add_command(label=string, command = tk._setit(selectedOption4, string, lambda x=selectedOption, y='menu4': [selectedKeys.insert(3, x), do_something(x, y)]))
         menuOptions = ['a', 'b', 'c', 'd']
+        options = menuOptions
+        options.remove(var)
+        menu4.configure(values=options)
 
 
 listener = Keyboard.Listener(on_press=on_key_press, on_release=on_release)
