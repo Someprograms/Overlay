@@ -2,7 +2,7 @@ import customtkinter as tk
 import threading
 from pynput import keyboard as Keyboard
 import keyboard as kb
-selectedKeys = []
+selectedKeys = ['', '', '', '']
 forloopIndex = 0
 startCanvasThread = True
 startCanvas2Thread = True
@@ -53,21 +53,21 @@ class addOrRemoveKeyClass:
                 keys = keys + 1
                 print(keys)
                 if keys == 1:
-                    canvas = tk.CTkCanvas(master=win)
+                    canvas = tk.CTkCanvas(master=win, background='#d4d4d4', highlightthickness=0)
                     canvas.grid(column=1, row=0)
                     canvas.config(width=50, height=50)
                 elif keys == 2:
 
-                    canvas2 = tk.CTkCanvas(win)
+                    canvas2 = tk.CTkCanvas(master=win, background='#d4d4d4', highlightthickness=0)
                     canvas2.grid(column=2, row=0)
                     canvas2.config(width=50, height=50)
                 elif keys == 3:
-                    canvas3 = tk.CTkCanvas(win)
+                    canvas3 = tk.CTkCanvas(master=win, background='#d4d4d4', highlightthickness=0)
                     canvas3.grid(column=3, row=0)
                     canvas3.config(width=50, height=50)
                 elif keys == 4:
 
-                    canvas4 = tk.CTkCanvas(win)
+                    canvas4 = tk.CTkCanvas(master=win, background='#d4d4d4', highlightthickness=0)
                     canvas4.grid(column=4, row=0)
                     canvas4.config(width=50, height=50)
         elif addOrRemoveCanvas == 'removeCanvas':
@@ -107,14 +107,6 @@ def on_release(key):
     global text_id4
     if selectedKeys:
         try:
-            if key.char == selectedKeys[2]:
-                if canvas3:
-                    canvas3.delete(text_id3)
-                    text_id3 = None
-            if key.char == selectedKeys[3]:
-                if canvas4:
-                    canvas4.delete(text_id4)
-                    text_id4 = None
             if key.char == selectedKeys[0]:
                 if canvas:
                     canvas.delete(text_id)
@@ -123,6 +115,16 @@ def on_release(key):
                 if canvas2:
                     canvas2.delete(text_id2)
                     text_id2 = None
+            if key.char == selectedKeys[2]:
+                if canvas3:
+                    canvas3.delete(text_id3)
+                    text_id3 = None
+            if key.char == selectedKeys[3]:
+                if canvas4:
+                    canvas4.delete(text_id4)
+                    text_id4 = None
+
+
             else:
                 print('this is some text')
         except:
@@ -139,7 +141,8 @@ def window():
     win.geometry('+0+0')
     win.overrideredirect(True)
     win.wm_attributes("-topmost", 1)
-    win.configure(background='red')
+
+
     global deleteCanvasText
     def deleteCanvasText(variable, textID):
         variable.delete(textID)
@@ -149,9 +152,8 @@ def window():
         options1 = tk.CTkToplevel(win)
         options1.configure(fg_color='#feffed')
         options1.title('Settings')
-        #tk.Button(options1, text="Set keys", command=append).grid(row=0, column=2, sticky='nsew')
-        tk.CTkButton(options1, text="Add a key", command=lambda x='addCanvas', y='': addOrRemoveKeyClass.add_or_remove_key(addOrRemoveCanvas=x,self=y)).grid(row=0, column=2, sticky='nsew', pady=(10,10))
-        tk.CTkButton(options1, text="Remove a key", command=lambda x='removeCanvas', y='': addOrRemoveKeyClass.add_or_remove_key(addOrRemoveCanvas=x, self=y)).grid(row=1, column=2, sticky='nsew', pady=(10,10))
+        tk.CTkButton(options1, text="Add a key overlay", command=lambda x='addCanvas', y='': addOrRemoveKeyClass.add_or_remove_key(addOrRemoveCanvas=x,self=y)).grid(row=0, column=2, sticky='nsew', pady=(10,10))
+        tk.CTkButton(options1, text="Remove a key overlay", command=lambda x='removeCanvas', y='': addOrRemoveKeyClass.add_or_remove_key(addOrRemoveCanvas=x, self=y)).grid(row=1, column=2, sticky='nsew', pady=(10,10))
         text = tk.CTkLabel(master=options1, width=20, height=20, text='KEY 1', font=('Futura', 14))
         text.grid(column=0, row=0, pady=(5, 5))
         text.configure(width=5, height=1)
@@ -165,34 +167,36 @@ def window():
         text4.grid(column=0, row=3, pady=(5, 5))
         text4.configure(width=5, height=1)
         global menuOptions
-        menuOptions = ['a', 'b', 'c', 'd']
+        menuOptions = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         global selectedOption
         selectedOption = tk.StringVar()
+        selectedOption.set(selectedKeys[0])
         global menu
-        menu = tk.CTkOptionMenu(master=options1,  variable=selectedOption, values=menuOptions, command=lambda x=selectedOption, y='menu': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
+        menu = tk.CTkOptionMenu(master=options1,  variable=selectedOption, values=menuOptions, command=lambda x=selectedOption, y='menu': [selectedKeys.insert(0, x), do_something(x, y)], fg_color='#E0FFFF', text_color='black')
         menu.grid(column=1, row=0, pady=10, padx=(5, 5))
         global selectedOption2
         selectedOption2 = tk.StringVar()
+        selectedOption2.set(selectedKeys[1])
         global menu2
         menu2 = tk.CTkOptionMenu(master=options1,variable=selectedOption2, values=menuOptions,
-                            command=lambda x=selectedOption2, y='menu2': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
+                            command=lambda x=selectedOption2, y='menu2': [selectedKeys.insert(1, x), do_something(x, y)], fg_color='#E0FFFF', text_color='black')
         menu2.grid(column=1, row=1, pady=10, padx=(5, 5))
         global selectedOption3
         selectedOption3 = tk.StringVar()
+        selectedOption3.set(selectedKeys[2])
         global menu3
         menu3 = tk.CTkOptionMenu(master=options1, variable=selectedOption3, values=menuOptions,
-                              command=lambda x=selectedOption3, y='menu3': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
+                              command=lambda x=selectedOption3, y='menu3': [selectedKeys.insert(2, x), do_something(x, y)], fg_color='#E0FFFF', text_color='black')
 
         menu3.grid(column=1, row=2, pady=10, padx=(5, 5))
         global selectedOption4
         selectedOption4 = tk.StringVar()
+        selectedOption4.set(selectedKeys[3])
         global menu4
         menu4 = tk.CTkOptionMenu(master=options1, variable=selectedOption4, values=menuOptions,
-                              command=lambda x=selectedOption4, y='menu4': [selectedKeys.append(x), do_something(x, y)], fg_color='#E0FFFF')
+                              command=lambda x=selectedOption4, y='menu4': [selectedKeys.insert(3, x), do_something(x, y)], fg_color='#E0FFFF', text_color='black')
 
         menu4.grid(column=1, row=3, pady=10, padx=(5, 5))
-
-
     tk.CTkButton(win, corner_radius=0, bg_color='black', width=20, height=20, text="Settings", command=options).grid(row=0, column=0, sticky='nsew')
     win.mainloop()
 
@@ -206,22 +210,22 @@ def do_something(var, var2):
     global menu4
     global selectedOption
     if var2 == 'menu':
-        menuOptions = ['a', 'b', 'c', 'd']
+        menuOptions = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         options = menuOptions
         options.remove(var)
         menu.configure(values=options)
     elif var2 == 'menu2':
-        menuOptions = ['a', 'b', 'c', 'd']
+        menuOptions = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         options = menuOptions
         options.remove(var)
         menu2.configure(values=options)
     elif var2 == 'menu3':
-        menuOptions = ['a', 'b', 'c', 'd']
+        menuOptions = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         options = menuOptions
         options.remove(var)
         menu3.configure(values=options)
     elif var2 == 'menu4':
-        menuOptions = ['a', 'b', 'c', 'd']
+        menuOptions = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         options = menuOptions
         options.remove(var)
         menu4.configure(values=options)
