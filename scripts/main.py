@@ -16,7 +16,7 @@ global text_id4
 
 
 def on_key_press(key):
-    if key == Keyboard.Key.esc:
+    if key == Keyboard.Key.ctrl_r:
         win.destroy()
         quit()
     if selectedKeys:
